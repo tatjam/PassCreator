@@ -1,0 +1,44 @@
+function utilsAPIhelp()
+
+print("This is UtilsAPI help:")
+print("Functions:")
+print(' centerPrint("string", int )')
+print("String is the text to be write, int is the height")
+print("--------")
+print("") 
+
+end
+
+function centerPrint(stuff, heightcenter)
+if heightcenter == nil then
+error(" (UtilsAPI) error on centerPrint, need 2 arguments")
+else  
+local centerw, centerh = term.getSize()
+local centerx, centery = term.getCursorPos()
+local xcenter = math.max(math.floor((centerw/2) - (#stuff/2)),0)
+term.setCursorPos(xcenter, heightcenter)
+print(stuff)
+end
+end
+
+function findPeripheral(type, log)
+
+for _, side in pairs( rs.getSides() ) do
+  if type == nil then
+  error("(UtilsAPI): FindPeripheral needs an argument!")
+  else
+  if peripheral.isPresent(side) then
+    
+    if peripheral.getType(side) == type then
+      
+      if log == true then
+        print("Found a ", type, " in the side: ",  side)
+       return(side)
+       else
+      return(side)
+      end
+    end
+    end
+end
+end
+end
