@@ -1,1 +1,63 @@
--- This is the main updater, not the installer, the installer is at pastebin.
+local version = "0.0"
+local fileVersion = fs.open("/passCreatorFiles/versionData","r")
+local version = fileVersion.readAll()
+fileVersion.close()
+
+
+function getFiles(url,filename)
+
+local downloadFile = http.get(url)
+local handle = downloadFile.readAll()
+local newFile = fs.open(filename,"w")
+newFile.write(handle)
+downloadFile.close()
+newFile.close()
+end
+
+function getVersion()
+
+  local onlineVersion = http.get("https://raw.githubusercontent.com/tatjam/passCreator/master/version")
+  if version == onlineVersion then
+    print("No new version avaible!")
+    break
+  else
+    print("New version avaible!")
+    if fs.exists("/passCreator") or fs.exists("/passCreatorFiles") then
+     print("Deleteing old data...")
+    fs.delete("/passCreator")
+    fs.delete("/passCreatorFiles")
+    fs.delete("/UtilsAPI")
+    print("Done!")
+    else
+    print("No installation found!")
+    print("Run the installer!!")
+    break
+    end
+    sleep(0.5)
+    print("Creating Dirs...")
+    fs.makeDir("/passCreatorFiles")
+    print("Done!")
+    sleep(0.5)
+    print("Downloading files...")
+    getFiles("https://raw.githubusercontent.com/tatjam/PassCreator/master/passCreator.lua","/passCreator")
+    print("Got main program...")
+    getFiles("https://raw.githubusercontent.com/tatjam/PassCreator/master/UtilsAPI","/UtilsAPI")
+   print("Got UtilsAPI...")
+   getFiles("https://raw.githubusercontent.com/tatjam/PassCreator/master/version", "/passCreatorFiles/versionData")
+   print("Got version data...")
+   sleep(0.5)
+   getFiles("https://raw.githubusercontent.com/tatjam/PassCreator/master/passCUpdater", "/passCratorFiles/newpassCUpdater") 
+   print("Got new Updater!")
+   print("This updater is going to delete itself and install the new one in 3 seconds...")
+   sleep(3)
+   end   
+end
+
+while true do 
+getVersion()
+shell.run("delete", "/passCreatorFiles/passCUpdater")
+shell.run("move", "/passCreatorFiles/newpassCUpdater", "/passCreatorFiles/passCUpdater")
+print("All done! This file does not exists anymore, closing in a second!")
+sleep(1)
+break
+end
