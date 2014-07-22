@@ -19,7 +19,7 @@ function getVersion()
   local onlineVersion = http.get("https://raw.githubusercontent.com/tatjam/passCreator/master/version")
   if version == onlineVersion then
     print("No new version avaible!")
-    break
+    error()
   else
     print("New version avaible!")
     if fs.exists("/passCreator") or fs.exists("/passCreatorFiles") then
