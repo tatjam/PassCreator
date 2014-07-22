@@ -31,7 +31,7 @@ function getVersion()
     else
     print("No installation found!")
     print("Run the installer!!")
-    break
+    error()
     end
     sleep(0.5)
     print("Creating Dirs...")
