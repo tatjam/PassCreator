@@ -2,7 +2,7 @@ os.loadAPI("/UtilsAPI")
 -- Variables
 
 local isRunning = true
-
+local version = "0.1"  -- Stored as a string, as it will be used in the updater...
 
 -- End of Variables
 
